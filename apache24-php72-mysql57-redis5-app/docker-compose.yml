@@ -1,0 +1,69 @@
+version: "3.7"
+
+services: 
+  apache24_php72:
+    build:
+      context: ./apache24_php72
+    image: abcdkyd/apache24_php72:docker-compose
+    container_name: apache24_php72
+    volumes:
+      - ${APACHE_ETC_VHOST_PATH}:/etc/httpd/conf.d/vhost
+      - ${APACHE_PID_PATH}:/var/run/httpd
+      - ${APACHE_ROOT_PATH}:/data
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 2s
+        max_attempts: 2
+        window: 20s
+    ports:
+      - "80:80"
+      - "8081:8081"
+    command: 
+      - /bin/sh
+      - -c
+      - |
+        rm -rf /var/run/httpd/httpd.pid /var/run/httpd/authdigest_shm.1
+        /usr/sbin/httpd -DFOREGROUND
+    networks: 
+      - moodle-net
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql57
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 2s
+        max_attempts: 2
+        window: 20s
+    volumes:
+      - ${MYSQL_DATA_PATH}:/var/lib/mysql
+    ports: 
+      - "3306:3306"
+    environment: 
+      MYSQL_ROOT_PASSWORD: "123456"
+    networks: 
+      - moodle-net
+
+  redis:
+    image: redis:5.0.7
+    container_name: redis5
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 2s
+        max_attempts: 2
+        window: 20s
+    volumes:
+      - ${REDIS_DATA_PATH}:/data
+    ports: 
+      - "6379:6379"
+    command: redis-server --appendonly yes --requirepass "123456"
+    networks: 
+      - moodle-net
+
+networks:
+  moodle-net:
+    name: local_net
+
