@@ -3,7 +3,7 @@ FROM centos:7.4.1708
 MAINTAINER jxie "506512796@qq.com"
 ENV REFRESHED_AT 2019-12-25
 RUN yum -y update && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
-    yum install httpd-2.4.6-90.el7.centos.x86_64 httpd-devel-2.4.6-90.el7.centos.x86_64 -y && \
+    yum install httpd-2.4.6 httpd-devel-2.4.6 -y && \
     yum install epel-release -y && rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm && \
     yum install php70w php70w-pear php70w-cli php70w-fpm php70w-mbstring php70w-pdo php70w-mcrypt php70w-xml php70w-mysqlnd \
     php70w-gd php70w-devel php70w-pecl-xdebug php70w-intl php70w-xmlrpc php70w-soap php70w-opcache php70w-pecl-redis -y && \
