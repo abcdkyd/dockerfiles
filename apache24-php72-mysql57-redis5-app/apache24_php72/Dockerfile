@@ -4,9 +4,9 @@ MAINTAINER jxie "506512796@qq.com"
 COPY swoole-4.3.5.tgz /usr/tmp/swoole-4.3.5.tgz
 WORKDIR /usr/tmp
 RUN yum -y update && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
-    yum install httpd-2.4.6-90.el7.centos.x86_64 httpd-devel-2.4.6-90.el7.centos.x86_64 -y && \
+    yum install httpd-2.4.6 httpd-devel-2.4.6 -y && \
     yum install epel-release -y && rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm && \
-    yum install php72w php72w-pear php72w-cli php72w-fpm php72w-mbstring php72w-pdo php72w-mcrypt php72w-xml php72w-mysqlnd \
+    yum install php72w php72w-pear php72w-cli php72w-fpm php72w-mbstring php72w-pdo php72w-xml php72w-mysqlnd \
     php72w-gd php72w-devel php72w-pecl-xdebug php72w-intl php72w-xmlrpc php72w-soap php72w-opcache php72w-pecl-redis -y && \
     yum install -y hiredis libtool make gcc gcc-c++ && \
     tar -zxf swoole-4.3.5.tgz && cd swoole-4.3.5 && phpize && ./configure --with-php-config=/usr/bin/php-config && make && make install && \
